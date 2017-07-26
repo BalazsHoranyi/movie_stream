@@ -26,8 +26,26 @@ Basic Commands
 --------------
 
 
-Setting Up Your Database
-^^^^^^^^^^^^^^^^^^^^^
+#### Setting Up Your Database
+
+
+* Set up a postgres database on your localhost with the following.
+
+  * name: *stream_db*
+
+  * username: *stream_user*
+
+  * password: *stream_user*
+
+Or feel free to change the config file to utilize your settings. However I do make use of the array field in postgres
+Then run your standard commands to set up your database
+
+.. code-block:: bash
+
+    python manage.py makemigrations
+    python manage.py migrate
+
+
 
 * This app comes with some convenience functions to auto-populate a database using MovieLens data which can be found at <https://grouplens.org/datasets/movielens/latest/>
 I recommend downloading the *ml-latest-small.zip* for testing.
@@ -46,12 +64,10 @@ I recommend downloading the *ml-latest-small.zip* for testing.
   This admin command may take a bit depending on internet speed, as it is also integrating with a stream api.
   It is however resumable and you don't have to wait for it to finish to move on.
 
+#### Celery
 
 
-  Celery
-  ^^^^^^
-
-  This app comes with Celery and utilized it to run LightFM model generation in the background.
+  This app comes with Celery and is utilized it to run LightFM model generation in the background.
 
   The default configuration for the broker is utilizing the following broker url: *'amqp://guest:guest@localhost:5672'*
   Which is a rabbitmq broker running on local host. You may however use your favorite broker as long as your change the broker url under *setting/base.py*
@@ -129,4 +145,4 @@ TODO and future recommendations
 
 * Create API hooks for ML models to utilize favorite front end.
 
-* Utilize already followed users to better recommend things. 
+* Utilize already followed users to better recommend things.
