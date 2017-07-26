@@ -23,6 +23,17 @@ The LightFM model is retrained anytime a new user or rating is created and then 
 Basic Commands
 --------------
 
+Setting up your environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* I personaly use Anaconda for my virutal environment manage but you can use the standard python *virtualenv*
+
+.. code-block:: bash
+
+    conda create -n stream
+    source activate stream
+    pip install -r requirments/local.txt
+
 Setting Up Your Database
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
