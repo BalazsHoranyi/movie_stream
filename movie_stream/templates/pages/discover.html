@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load activity_tags %}
+{% block content %}
+
+<p>You may like to follow {% for target in follow_rec %}
+  <tr>
+    {{ target }}
+  </tr>
+  {% endfor %}
+</p>
+
+<p>You may like to watch {% for target in movie_rec %}
+  <tr>
+    {{ target }}
+  </tr>
+  {% endfor %}
+</p>
+{% endblock %}

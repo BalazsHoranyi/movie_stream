@@ -10,7 +10,7 @@ Local settings
 """
 
 from .base import *  # noqa
-from supersecret import django_secret
+from .supersecret import django_secret
 # DEBUG
 # ------------------------------------------------------------------------------
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
@@ -65,7 +65,8 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 ########## CELERY
 # In development, all tasks will be executed locally by blocking until the task returns
-CELERY_ALWAYS_EAGER = True
+# turning to true for know so we can test async stuff
+CELERY_ALWAYS_EAGER = False
 ########## END CELERY
 
 # Your local stuff: Below this line define 3rd party library settings

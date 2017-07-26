@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load activity_tags %}
+
+{% block content %}
+  <p>You are following
+     {% for target in following %}
+     <tr>
+       {{ target.username }}
+     </tr>
+     {% endfor %}
+        </p>
+
+  {% for activity in activities %}
+       {% render_activity activity 'timeline' %}
+  {% endfor %}
+
+{% endblock content %}

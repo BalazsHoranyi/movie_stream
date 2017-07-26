@@ -7,8 +7,9 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
+
 import environ
-from supersecret import *
+from .supersecret import *
 
 ROOT_DIR = environ.Path(__file__) - 3  # (movie_stream/config/settings/base.py - 3 = movie_stream/)
 APPS_DIR = ROOT_DIR.path('movie_stream')
@@ -57,7 +58,8 @@ LOCAL_APPS = [
     # custom users app
     'movie_stream.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'stream_django'
+    'stream_django',
+    'movie_stream',
 ]
 
 
@@ -113,9 +115,21 @@ MANAGERS = ADMINS
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+# DATABASES = {
+#     'default': env.db('DATABASE_URL', default='postgres:///movie_stream'),
+# }
+
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///movie_stream'),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'stream_db',
+        'USER': 'stream_user',
+        'PASSWORD': 'stream_user',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 
@@ -140,7 +154,7 @@ USE_I18N = True
 USE_L10N = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
-USE_TZ = True
+USE_TZ = False
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -254,8 +268,9 @@ AUTHENTICATION_BACKENDS = [
 
 # Some really nice defaults
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# Set up email stuff later.
+ACCOUNT_EMAIL_REQUIRED = False
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 ACCOUNT_ADAPTER = 'movie_stream.users.adapters.AccountAdapter'
@@ -264,6 +279,7 @@ SOCIALACCOUNT_ADAPTER = 'movie_stream.users.adapters.SocialAccountAdapter'
 # Custom user app defaults
 # Select the correct user model
 AUTH_USER_MODEL = 'users.User'
+
 LOGIN_REDIRECT_URL = 'users:redirect'
 LOGIN_URL = 'account_login'
 
@@ -272,11 +288,14 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 ########## CELERY
 INSTALLED_APPS += ['movie_stream.taskapp.celery.CeleryConfig']
-CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='django://')
-if CELERY_BROKER_URL == 'django://':
-    CELERY_RESULT_BACKEND = 'redis://'
-else:
-    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+# CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='django://')
+# if CELERY_BROKER_URL == 'django://':
+#     CELERY_RESULT_BACKEND = 'redis://'
+# else:
+#     CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 ########## END CELERY
 
 

@@ -68,3 +68,5 @@ staticfiles/
 .cache/
 
 config/settings/supersecret.py
+movie_stream/migrations/0*
+movie_stream/data/

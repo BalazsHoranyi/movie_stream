@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
+    url(r'^ratings/', include('movie_stream.urls', namespace='ratings')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

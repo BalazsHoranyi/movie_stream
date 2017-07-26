@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load activity_tags %}
+
+{% block content %}
+  <p>User activites.</p>
+
+  {% for activity in activities %}
+       {% render_activity activity %}
+  {% endfor %}
+
+{% endblock content %}
