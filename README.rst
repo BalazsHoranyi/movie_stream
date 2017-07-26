@@ -6,8 +6,6 @@ Example recommendation app using getstream.io
 Built with Cookiecutter Django, getstream.io, LightFM, and Celery
 
 
-:License: MIT
-
 About
 ----------
 
@@ -25,8 +23,8 @@ The LightFM model is retrained anytime a new user or rating is created and then 
 Basic Commands
 --------------
 
-
-#### Setting Up Your Database
+Setting Up Your Database
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 * Set up a postgres database on your localhost with the following.
@@ -37,7 +35,7 @@ Basic Commands
 
   * password: *stream_user*
 
-Or feel free to change the config file to utilize your settings. However I do make use of the array field in postgres
+Or feel free to change the config file to utilize your settings. However I do make use of the array field in postgres.
 Then run your standard commands to set up your database
 
 .. code-block:: bash
@@ -64,31 +62,31 @@ I recommend downloading the *ml-latest-small.zip* for testing.
   This admin command may take a bit depending on internet speed, as it is also integrating with a stream api.
   It is however resumable and you don't have to wait for it to finish to move on.
 
-#### Celery
+Celery
+^^^^^^^
+
+This app comes with Celery and is utilized it to run LightFM model generation in the background.
+
+The default configuration for the broker is utilizing the following broker url: *'amqp://guest:guest@localhost:5672'*
+Which is a rabbitmq broker running on local host. You may however use your favorite broker as long as your change the broker url under *setting/base.py*
 
 
-  This app comes with Celery and is utilized it to run LightFM model generation in the background.
 
-  The default configuration for the broker is utilizing the following broker url: *'amqp://guest:guest@localhost:5672'*
-  Which is a rabbitmq broker running on local host. You may however use your favorite broker as long as your change the broker url under *setting/base.py*
+To run a celery worker:
 
+.. code-block:: bash
 
+  cd movie_stream
+  celery -A movie_stream.taskapp worker -l info -E
 
-  To run a celery worker:
-
-  .. code-block:: bash
-
-      cd movie_stream
-      celery -A movie_stream.taskapp worker -l info -E
-
-  Please note: For Celery's import magic to work, it is important *where* the celery commands are run. If you are in the same folder with *manage.py*, you should be right.
+Please note: For Celery's import magic to work, it is important *where* the celery commands are run. If you are in the same folder with *manage.py*, you should be right.
 
 
 
 Interesting Links
 -------------------
 
-Assuming your running a django development server on <localhost:8000>_
+Assuming your running a django development server on <http://localhost:8000>
 
 You may either create a new user or login under user_xx with password 'getstreamio'
 where xx is any number between 1 and 670 (Assuming you used the *ml-latest-small ratings.csv file to load the database)
